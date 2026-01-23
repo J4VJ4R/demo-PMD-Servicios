@@ -1,0 +1,62 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN_PMD
+  CONSULTANT
+  CLIENT_VIEWER
+}
+
+enum ActivityStatus {
+  PENDING
+  IN_REVIEW
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id               String     @id @default(uuid())
+  email            String     @unique
+  name             String
+  role             UserRole   @default(CONSULTANT)
+  activitiesManaged Activity[]
+}
+
+model Project {
+  id          String     @id @default(uuid())
+  name        String
+  clientName  String
+  description String?
+  startDate   DateTime   @default(now())
+  status      String     @default("ACTIVE")
+  activities  Activity[]
+}
+
+model Activity {
+  id           String         @id @default(uuid())
+  title        String
+  status       ActivityStatus @default(PENDING)
+  projectId    String
+  project      Project        @relation(fields: [projectId], references: [id])
+  assignedToId String?
+  assignedTo   User?          @relation(fields: [assignedToId], references: [id])
+  documents    Document[]
+  updatedAt    DateTime       @updatedAt @default(now())
+}
+
+model Document {
+  id         String   @id @default(uuid())
+  name       String
+  url        String
+  uploadedAt DateTime @default(now())
+  activityId String
+  activity   Activity @relation(fields: [activityId], references: [id])
+}
