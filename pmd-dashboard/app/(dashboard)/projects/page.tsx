@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { ProjectDialog } from "@/components/projects/project-dialog";
-import { formatDate } from "@/lib/utils";
 
 export default async function ProjectsPage() {
   const projects = await prisma.project.findMany({
