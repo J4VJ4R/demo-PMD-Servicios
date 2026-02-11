@@ -2,7 +2,7 @@
 
 import { Pie, PieChart, Cell, ResponsiveContainer, Tooltip, Legend } from "recharts"
 
-const COLORS = ['#0ea5e9', '#f59e0b', '#22c55e', '#ef4444']; // Sky, Amber, Green, Red
+const COLORS = ['#0ea5e9', '#D4AF37', '#22c55e', '#ef4444']; // Sky, Gold, Green, Red
 
 interface OverviewChartProps {
   data: {

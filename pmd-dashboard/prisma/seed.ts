@@ -1,4 +1,5 @@
-import { PrismaClient, UserRole, ActivityStatus } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
+import { hash } from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
@@ -9,30 +10,53 @@ async function main() {
   await prisma.document.deleteMany();
   await prisma.activity.deleteMany();
   await prisma.project.deleteMany();
-  // We keep users or upsert them
+  await prisma.user.deleteMany(); // Start fresh with users
 
-  // 1. Create Users (Auditor & Consultant)
+  const passwordAdmin = await hash('admin', 10);
+  const password123 = await hash('123', 10);
+
+  // 1. Create Users (Auditor, Consultant, Client)
+  // Password for all: "123456"
   const auditor = await prisma.user.upsert({
-    where: { email: 'auditor@pmd.com' },
-    update: {},
+    where: { email: 'admin@pmd.com' },
+    update: {
+      password: passwordAdmin,
+    },
     create: {
-      email: 'auditor@pmd.com',
-      name: 'Auditor PMD',
-      role: UserRole.ADMIN_PMD,
+      email: 'admin@pmd.com',
+      name: 'Administrador PMD',
+      role: 'ADMIN_PMD',
+      password: passwordAdmin,
     },
   });
 
   const consultant = await prisma.user.upsert({
-    where: { email: 'consultant@pmd.com' },
-    update: {},
+    where: { email: 'consultor@pmd.com' },
+    update: {
+      password: password123,
+    },
     create: {
-      email: 'consultant@pmd.com',
+      email: 'consultor@pmd.com',
       name: 'Consultor PMD',
-      role: UserRole.CONSULTANT,
+      role: 'CONSULTANT',
+      password: password123,
     },
   });
 
-  console.log('Created users:', { auditor, consultant });
+  const client = await prisma.user.upsert({
+    where: { email: 'cliente@empresa.com' },
+    update: {
+      password: password123,
+    },
+    create: {
+      email: 'cliente@empresa.com',
+      name: 'Cliente Empresa',
+      role: 'CLIENT_VIEWER',
+      password: password123,
+    },
+  });
+
+  console.log('Created users:', { auditor, consultant, client });
 
   // 2. Create Project
   const project = await prisma.project.create({
@@ -49,27 +73,27 @@ async function main() {
   const activitiesData = [
     {
       title: 'Auditoría Inicial',
-      status: ActivityStatus.APPROVED,
+      status: 'APPROVED',
       assignedToId: auditor.id,
     },
     {
       title: 'Evaluación de Riesgos',
-      status: ActivityStatus.IN_REVIEW,
+      status: 'IN_REVIEW',
       assignedToId: consultant.id,
     },
     {
       title: 'Redacción de Política de Seguridad',
-      status: ActivityStatus.PENDING,
+      status: 'PENDING',
       assignedToId: consultant.id,
     },
     {
       title: 'Capacitación del Personal',
-      status: ActivityStatus.PENDING,
+      status: 'PENDING',
       assignedToId: consultant.id,
     },
     {
       title: 'Revisión Final',
-      status: ActivityStatus.PENDING,
+      status: 'PENDING',
       assignedToId: auditor.id,
     },
   ];

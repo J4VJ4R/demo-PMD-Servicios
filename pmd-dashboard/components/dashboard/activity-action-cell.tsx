@@ -4,18 +4,17 @@ import { Button } from "@/components/ui/button";
 import { CheckCircle } from "lucide-react";
 import { approveActivity } from "@/app/actions";
 import { useState } from "react";
-import { ActivityStatus } from "@prisma/client";
 
 interface ActivityActionCellProps {
   id: string;
-  status: ActivityStatus;
+  status: string;
 }
 
 export function ActivityActionCell({ id, status }: ActivityActionCellProps) {
   const [loading, setLoading] = useState(false);
 
   if (status === "APPROVED") {
-    return <span className="text-green-600 font-medium">Aprobado</span>;
+    return <span className="text-green-400 font-medium">Aprobado</span>;
   }
 
   const handleApprove = async () => {
@@ -28,7 +27,7 @@ export function ActivityActionCell({ id, status }: ActivityActionCellProps) {
     <Button 
       variant="outline" 
       size="sm" 
-      className="h-8 text-blue-600 border-blue-200 hover:bg-blue-50"
+      className="h-8 text-primary border-primary hover:bg-primary/10"
       onClick={handleApprove}
       disabled={loading}
     >

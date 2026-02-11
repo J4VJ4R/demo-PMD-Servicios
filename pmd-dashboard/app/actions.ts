@@ -1,8 +1,8 @@
 'use server'
 
 import prisma from "@/lib/prisma";
-import { ActivityStatus } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import { hash } from "bcryptjs";
 
 export async function createProject(formData: FormData) {
   const name = formData.get('name') as string;
@@ -28,7 +28,7 @@ export async function createProject(formData: FormData) {
   }
 }
 
-export async function updateActivityStatus(id: string, status: ActivityStatus) {
+export async function updateActivityStatus(id: string, status: string) {
   try {
     await prisma.activity.update({
       where: { id },
@@ -45,7 +45,7 @@ export async function updateActivityStatus(id: string, status: ActivityStatus) {
 
 // Deprecated: Keeping for backward compatibility if needed, but redirects to updateActivityStatus logic
 export async function approveActivity(id: string) {
-  return updateActivityStatus(id, ActivityStatus.APPROVED);
+  return updateActivityStatus(id, "APPROVED");
 }
 
 export async function uploadDocument(activityId: string, fileName: string) {
@@ -62,5 +62,33 @@ export async function uploadDocument(activityId: string, fileName: string) {
   } catch (error) {
     console.error("Failed to upload document:", error);
     return { success: false, error: "Failed to upload document" };
+  }
+}
+
+export async function createUser(formData: FormData) {
+  const name = formData.get('name') as string;
+  const email = formData.get('email') as string;
+  const password = formData.get('password') as string;
+  const role = formData.get('role') as string;
+
+  if (!name || !email || !password || !role) {
+    return { success: false, error: "Todos los campos son requeridos" };
+  }
+
+  try {
+    const hashedPassword = await hash(password, 10);
+    await prisma.user.create({
+      data: {
+        name,
+        email,
+        password: hashedPassword,
+        role,
+      },
+    });
+    revalidatePath('/users');
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to create user:", error);
+    return { success: false, error: "Error al crear usuario. Verifique si el correo ya existe." };
   }
 }

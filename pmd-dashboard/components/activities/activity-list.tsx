@@ -19,9 +19,10 @@ import { toast } from "sonner";
 
 interface ActivityListProps {
   activities: any[];
+  userRole: string;
 }
 
-export function ActivityList({ activities }: ActivityListProps) {
+export function ActivityList({ activities, userRole }: ActivityListProps) {
   const [selectedDoc, setSelectedDoc] = useState<any | null>(null);
 
   const handlePreview = (activity: any) => {
@@ -93,7 +94,7 @@ export function ActivityList({ activities }: ActivityListProps) {
                             <Eye className="h-4 w-4" />
                           </Button>
                         )}
-                        <ActivityStatusActions id={activity.id} status={activity.status} />
+                        <ActivityStatusActions id={activity.id} status={activity.status} userRole={userRole} />
                       </div>
                     </TableCell>
                   </TableRow>

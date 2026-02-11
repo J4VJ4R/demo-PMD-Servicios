@@ -4,17 +4,16 @@ import { Bell } from "lucide-react";
 
 export function Topbar() {
   return (
-    <header className="flex h-16 items-center justify-between border-b bg-white px-6 shadow-sm">
+    <header className="flex h-16 items-center justify-between border-b border-zinc-800 bg-background px-6 shadow-sm">
       <div className="flex items-center">
-        <h1 className="text-xl font-semibold text-slate-800">Panel de Control</h1>
+        <h1 className="text-xl font-semibold text-foreground">Panel de Control</h1>
       </div>
       <div className="flex items-center space-x-4">
-        <Button variant="ghost" size="icon">
-          <Bell className="h-5 w-5 text-slate-500" />
+        <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
+          <Bell className="h-5 w-5" />
         </Button>
         <Avatar>
-          <AvatarImage src="/avatars/01.png" alt="@pmd" />
-          <AvatarFallback>PM</AvatarFallback>
+          <AvatarFallback className="bg-[#D4AF37] text-black font-bold">PM</AvatarFallback>
         </Avatar>
       </div>
     </header>

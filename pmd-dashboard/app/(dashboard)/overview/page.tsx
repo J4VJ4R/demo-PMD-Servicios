@@ -1,5 +1,4 @@
 import prisma from "@/lib/prisma";
-import { ActivityStatus } from "@prisma/client";
 import { OverviewContent } from "@/components/dashboard/overview-content";
 
 export default async function OverviewPage() {
@@ -8,15 +7,15 @@ export default async function OverviewPage() {
   const totalActivities = await prisma.activity.count();
   
   const pendingActivities = await prisma.activity.count({
-    where: { status: ActivityStatus.PENDING },
+    where: { status: "PENDING" },
   });
   
   const inReviewActivities = await prisma.activity.count({
-    where: { status: ActivityStatus.IN_REVIEW },
+    where: { status: "IN_REVIEW" },
   });
   
   const approvedActivities = await prisma.activity.count({
-    where: { status: ActivityStatus.APPROVED },
+    where: { status: "APPROVED" },
   });
 
   // 2. Fetch Recent Activities

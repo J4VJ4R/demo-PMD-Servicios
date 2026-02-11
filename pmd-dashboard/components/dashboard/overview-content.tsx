@@ -67,7 +67,7 @@ export function OverviewContent({ kpiData, chartData, recentActivities }: Overvi
                 <CardTitle className="text-sm font-medium">Actividades Pendientes</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-amber-600">{kpiData.pendingActivities}</div>
+                <div className="text-2xl font-bold text-primary">{kpiData.pendingActivities}</div>
               </CardContent>
             </Card>
             <Card>
@@ -75,7 +75,7 @@ export function OverviewContent({ kpiData, chartData, recentActivities }: Overvi
                 <CardTitle className="text-sm font-medium">En Revisión</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-blue-600">{kpiData.inReviewActivities}</div>
+                <div className="text-2xl font-bold text-blue-400">{kpiData.inReviewActivities}</div>
               </CardContent>
             </Card>
             <Card>
@@ -83,7 +83,7 @@ export function OverviewContent({ kpiData, chartData, recentActivities }: Overvi
                 <CardTitle className="text-sm font-medium">Aprobadas</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-green-600">{kpiData.approvedActivities}</div>
+                <div className="text-2xl font-bold text-green-400">{kpiData.approvedActivities}</div>
               </CardContent>
             </Card>
           </div>
@@ -107,7 +107,7 @@ export function OverviewContent({ kpiData, chartData, recentActivities }: Overvi
                   </TableHeader>
                   <TableBody>
                     {recentActivities.map((activity) => (
-                      <TableRow key={activity.id} className={selectedDoc?.activity?.title === activity.title ? "bg-slate-50" : ""}>
+                      <TableRow key={activity.id} className={selectedDoc?.activity?.title === activity.title ? "bg-muted/50" : ""}>
                         <TableCell className="font-medium">{activity.title}</TableCell>
                         <TableCell>{activity.project.name}</TableCell>
                         <TableCell>
@@ -117,9 +117,9 @@ export function OverviewContent({ kpiData, chartData, recentActivities }: Overvi
                               activity.status === 'IN_REVIEW' ? 'secondary' : 'outline'
                             }
                             className={
-                              activity.status === 'APPROVED' ? 'bg-green-500 hover:bg-green-600' :
-                              activity.status === 'IN_REVIEW' ? 'bg-blue-500 text-white hover:bg-blue-600' :
-                              'text-amber-600 border-amber-200'
+                              activity.status === 'APPROVED' ? 'bg-green-600 hover:bg-green-700' :
+                              activity.status === 'IN_REVIEW' ? 'bg-blue-600 text-white hover:bg-blue-700' :
+                              'text-primary border-primary'
                             }
                           >
                             {activity.status === 'APPROVED' ? 'APROBADA' : 
@@ -137,7 +137,7 @@ export function OverviewContent({ kpiData, chartData, recentActivities }: Overvi
                                 size="icon" 
                                 onClick={() => handlePreview(activity)}
                                 title="Ver Documento"
-                                className="text-slate-500 hover:text-blue-600"
+                                className="text-muted-foreground hover:text-primary"
                               >
                                 <Eye className="h-4 w-4" />
                               </Button>

@@ -3,19 +3,19 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { updateActivityStatus } from "@/app/actions";
-import { ActivityStatus } from "@prisma/client";
 import { toast } from "sonner";
 import { CheckCircle, Clock, ArrowRight } from "lucide-react";
 
 interface ActivityStatusActionsProps {
   id: string;
-  status: ActivityStatus;
+  status: string;
+  userRole: string;
 }
 
-export function ActivityStatusActions({ id, status }: ActivityStatusActionsProps) {
+export function ActivityStatusActions({ id, status, userRole }: ActivityStatusActionsProps) {
   const [loading, setLoading] = useState(false);
 
-  async function handleStatusChange(newStatus: ActivityStatus) {
+  async function handleStatusChange(newStatus: string) {
     setLoading(true);
     const result = await updateActivityStatus(id, newStatus);
     setLoading(false);
@@ -27,13 +27,19 @@ export function ActivityStatusActions({ id, status }: ActivityStatusActionsProps
     }
   }
 
+  // Client Viewer: Read only
+  if (userRole === 'CLIENT_VIEWER') {
+    return null;
+  }
+
   if (status === 'APPROVED') {
     return <span className="text-green-600 font-medium flex items-center"><CheckCircle className="w-4 h-4 mr-1" /> Aprobada</span>;
   }
 
   return (
     <div className="flex gap-2">
-      {status === 'PENDING' && (
+      {/* Consultant and Admin can mark as In Review */}
+      {status === 'PENDING' && (userRole === 'CONSULTANT' || userRole === 'ADMIN_PMD') && (
         <Button 
           variant="outline" 
           size="sm"
@@ -45,7 +51,8 @@ export function ActivityStatusActions({ id, status }: ActivityStatusActionsProps
         </Button>
       )}
       
-      {status === 'IN_REVIEW' && (
+      {/* Only Admin can Approve */}
+      {status === 'IN_REVIEW' && userRole === 'ADMIN_PMD' && (
         <Button 
           variant="outline" 
           size="sm"
@@ -55,6 +62,13 @@ export function ActivityStatusActions({ id, status }: ActivityStatusActionsProps
         >
           <CheckCircle className="mr-1 h-3 w-3" /> Aprobar
         </Button>
+      )}
+
+      {/* If Consultant sees IN_REVIEW, show status but no action */}
+      {status === 'IN_REVIEW' && userRole === 'CONSULTANT' && (
+        <span className="text-blue-600 font-medium flex items-center text-sm">
+          <Clock className="w-3 h-3 mr-1" /> En Revisión
+        </span>
       )}
     </div>
   );

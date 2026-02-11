@@ -1,5 +1,6 @@
 import { Sidebar } from "@/components/dashboard/sidebar";
 import { Topbar } from "@/components/dashboard/topbar";
+import { SessionTimeout } from "@/components/auth/session-timeout";
 
 export default function DashboardLayout({
   children,
@@ -7,7 +8,8 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex h-screen bg-slate-50">
+    <div className="flex h-screen bg-background">
+      <SessionTimeout />
       <Sidebar />
       <div className="flex flex-1 flex-col overflow-hidden">
         <Topbar />
