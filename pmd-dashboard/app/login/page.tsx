@@ -78,7 +78,7 @@ export default function LoginPage() {
                 name="email" 
                 type="email" 
                 placeholder="nombre@empresa.com" 
-                className="h-11 bg-white"
+                className="h-11 bg-white text-slate-900"
                 required 
               />
             </div>
@@ -92,7 +92,7 @@ export default function LoginPage() {
                   id="password" 
                   name="password" 
                   type={showPassword ? "text" : "password"} 
-                  className="h-11 pr-10 bg-white"
+                  className="h-11 pr-10 bg-white text-slate-900"
                   required 
                 />
                 <button
