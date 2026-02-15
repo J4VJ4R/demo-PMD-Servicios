@@ -63,11 +63,11 @@ export default function LoginPage() {
       </div>
 
       {/* Right Side: Login Form */}
-      <div className="flex items-center justify-center p-8 bg-background">
+      <div className="flex items-center justify-center p-8 bg-white">
         <div className="w-full max-w-md space-y-8">
           <div className="text-center lg:text-left">
-            <h2 className="text-3xl font-bold tracking-tight text-foreground">Bienvenido de nuevo</h2>
-            <p className="mt-2 text-muted-foreground">Ingrese sus credenciales para acceder a su cuenta.</p>
+            <h2 className="text-3xl font-bold tracking-tight text-slate-900">Bienvenido de nuevo</h2>
+            <p className="mt-2 text-slate-600">Ingrese sus credenciales para acceder a su cuenta.</p>
           </div>
 
           <form action={handleSubmit} className="space-y-6">
@@ -78,7 +78,7 @@ export default function LoginPage() {
                 name="email" 
                 type="email" 
                 placeholder="nombre@empresa.com" 
-                className="h-11"
+                className="h-11 bg-white"
                 required 
               />
             </div>
@@ -92,7 +92,7 @@ export default function LoginPage() {
                   id="password" 
                   name="password" 
                   type={showPassword ? "text" : "password"} 
-                  className="h-11 pr-10"
+                  className="h-11 pr-10 bg-white"
                   required 
                 />
                 <button
@@ -115,20 +115,20 @@ export default function LoginPage() {
             </Button>
           </form>
 
-          <div className="bg-card p-4 rounded-lg border border-border">
-            <p className="text-xs font-semibold text-foreground mb-2 uppercase tracking-wide">Credenciales Demo:</p>
-            <div className="grid grid-cols-1 gap-2 text-xs text-foreground/90">
+          <div className="bg-blue-50 p-4 rounded-lg border border-blue-100">
+            <p className="text-xs font-semibold text-blue-900 mb-2 uppercase tracking-wide">Credenciales Demo:</p>
+            <div className="grid grid-cols-1 gap-2 text-xs text-blue-800">
               <div className="flex justify-between">
                 <span>Administrador:</span>
-                <span className="font-mono bg-primary text-primary-foreground px-1 rounded">admin@pmd.com / admin</span>
+                <span className="font-mono bg-blue-100 px-1 rounded">admin@pmd.com / admin</span>
               </div>
               <div className="flex justify-between">
                 <span>Consultor:</span>
-                <span className="font-mono bg-primary text-primary-foreground px-1 rounded">consultor@pmd.com / 123</span>
+                <span className="font-mono bg-blue-100 px-1 rounded">consultor@pmd.com / 123</span>
               </div>
               <div className="flex justify-between">
                 <span>Cliente:</span>
-                <span className="font-mono bg-primary text-primary-foreground px-1 rounded">cliente@empresa.com / 123</span>
+                <span className="font-mono bg-blue-100 px-1 rounded">cliente@empresa.com / 123</span>
               </div>
             </div>
           </div>
